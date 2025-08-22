@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-import plotly.express as px
 
 st.title("🌱 멘델의 유전 시뮬레이터")
 
@@ -39,13 +38,6 @@ if st.button("시뮬레이션 실행"):
     st.write("유전자형 비율:", genotype_counts)
     st.write("표현형 비율:", phenotype_counts)
 
-    # Plotly 그래프 (유전자형)
-    fig1 = px.bar(x=list(genotype_counts.keys()), y=list(genotype_counts.values()),
-                  labels={'x':'유전자형', 'y':'개수'}, title="유전자형 분포")
-    st.plotly_chart(fig1)
-
-    # Plotly 그래프 (표현형)
-    fig2 = px.bar(x=list(phenotype_counts.keys()), y=list(phenotype_counts.values()),
-                  labels={'x':'표현형', 'y':'개수'}, title="표현형 분포",
-                  color=list(phenotype_counts.keys()))
-    st.plotly_chart(fig2)
+    # Streamlit 내장 차트 사용
+    st.bar_chart(genotype_counts)
+    st.bar_chart(phenotype_counts)
