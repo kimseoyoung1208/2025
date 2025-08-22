@@ -1,11 +1,11 @@
 import streamlit as st
 import random
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 st.title("🌱 멘델의 유전 시뮬레이터")
 
 st.write("""
-부모의 대립유전자를 입력하면, 교배 후 자손 100명의 유전자형과 표현형 비율을 시뮬레이션합니다.
+부모의 대립유전자를 입력하면, 교배 후 자손의 유전자형과 표현형 비율을 시뮬레이션합니다.
 예시: **R (둥근), r (주름)**
 """)
 
@@ -39,14 +39,13 @@ if st.button("시뮬레이션 실행"):
     st.write("유전자형 비율:", genotype_counts)
     st.write("표현형 비율:", phenotype_counts)
 
-    # 그래프 그리기
-    fig1, ax1 = plt.subplots()
-    ax1.bar(genotype_counts.keys(), genotype_counts.values())
-    ax1.set_title("유전자형 분포")
-    st.pyplot(fig1)
+    # Plotly 그래프 (유전자형)
+    fig1 = px.bar(x=list(genotype_counts.keys()), y=list(genotype_counts.values()),
+                  labels={'x':'유전자형', 'y':'개수'}, title="유전자형 분포")
+    st.plotly_chart(fig1)
 
-    fig2, ax2 = plt.subplots()
-    ax2.bar(phenotype_counts.keys(), phenotype_counts.values(), color=["skyblue", "salmon"])
-    ax2.set_title("표현형 분포")
-    st.pyplot(fig2)
-
+    # Plotly 그래프 (표현형)
+    fig2 = px.bar(x=list(phenotype_counts.keys()), y=list(phenotype_counts.values()),
+                  labels={'x':'표현형', 'y':'개수'}, title="표현형 분포",
+                  color=list(phenotype_counts.keys()))
+    st.plotly_chart(fig2)
