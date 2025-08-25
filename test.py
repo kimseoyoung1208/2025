@@ -75,7 +75,7 @@ st.write(f"- 탄수화물: {carbs:.0f} g")
 st.write(f"- 단백질: {protein:.0f} g")
 st.write(f"- 지방: {fat:.0f} g")
 
-# Altair 그래프 (글씨 똑바로 표시됨)
+# Altair 그래프 (y축 제목 세로 표시)
 st.subheader("📈 영양소 비율 시각화")
 df = pd.DataFrame({
     "영양소": ["탄수화물", "단백질", "지방"],
@@ -86,8 +86,8 @@ chart = (
     alt.Chart(df)
     .mark_bar(color="skyblue")
     .encode(
-        x=alt.X("영양소:N", axis=alt.Axis(labelAngle=0)),  # 글씨 0도로 세움
-        y="섭취량(g):Q",
+        x=alt.X("영양소:N", axis=alt.Axis(labelAngle=0)),  # 영양소 글씨 똑바로
+        y=alt.Y("섭취량(g):Q", axis=alt.Axis(titleAngle=0)),  # y축 제목만 세로
         tooltip=["영양소", "섭취량(g)"]
     )
 )
