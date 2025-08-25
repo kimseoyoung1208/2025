@@ -1,5 +1,5 @@
 import streamlit as st
-import matplotlib.pyplot as plt
+import pandas as pd
 
 st.title("🔬 체질량 · 기초대사량 분석기 (업그레이드 버전)")
 
@@ -74,11 +74,10 @@ st.write(f"- 탄수화물: {carbs:.0f} g")
 st.write(f"- 단백질: {protein:.0f} g")
 st.write(f"- 지방: {fat:.0f} g")
 
-# 그래프 출력
+# Streamlit 기본 차트 (matplotlib 대신)
 st.subheader("📈 영양소 비율 시각화")
-labels = ["탄수화물", "단백질", "지방"]
-values = [carbs, protein, fat]
-
-fig, ax = plt.subplots()
-ax.bar(labels, values)
-ax.se
+df = pd.DataFrame({
+    "영양소": ["탄수화물", "단백질", "지방"],
+    "섭취량(g)": [carbs, protein, fat]
+})
+st.bar_chart(df.set_index("영양소"))
