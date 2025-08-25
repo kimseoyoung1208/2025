@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
 st.title("🔬 체질량 · 기초대사량 분석기 (업그레이드 버전)")
 
@@ -35,7 +36,7 @@ activity_factors = {
 
 tdee = bmr * activity_factors[activity_level]
 
-# BMI 상태 구분 (대한비만학회 기준)
+# BMI 상태 구분
 if bmi < 18.5:
     status = "저체중"
 elif bmi < 23:
@@ -45,12 +46,12 @@ elif bmi < 25:
 else:
     status = "비만"
 
-# 정상 체중 범위 (BMI 18.5 ~ 22.9 기준)
+# 정상 체중 범위
 min_weight = 18.5 * (height / 100) ** 2
 max_weight = 22.9 * (height / 100) ** 2
 
-# 3대 영양소 권장 비율 (탄수 50%, 단백질 20%, 지방 30%)
-carbs = tdee * 0.5 / 4   # g (탄수화물 1g = 4 kcal)
+# 3대 영양소
+carbs = tdee * 0.5 / 4   # g
 protein = tdee * 0.2 / 4 # g
 fat = tdee * 0.3 / 9     # g
 
@@ -74,10 +75,20 @@ st.write(f"- 탄수화물: {carbs:.0f} g")
 st.write(f"- 단백질: {protein:.0f} g")
 st.write(f"- 지방: {fat:.0f} g")
 
-# Streamlit 기본 차트 (matplotlib 대신)
+# Altair 그래프 (글씨 똑바로 표시됨)
 st.subheader("📈 영양소 비율 시각화")
 df = pd.DataFrame({
     "영양소": ["탄수화물", "단백질", "지방"],
     "섭취량(g)": [carbs, protein, fat]
 })
-st.bar_chart(df.set_index("영양소"))
+
+chart = (
+    alt.Chart(df)
+    .mark_bar(color="skyblue")
+    .encode(
+        x=alt.X("영양소:N", axis=alt.Axis(labelAngle=0)),  # 글씨 0도로 세움
+        y="섭취량(g):Q",
+        tooltip=["영양소", "섭취량(g)"]
+    )
+)
+st.altair_chart(chart, use_container_width=True)
