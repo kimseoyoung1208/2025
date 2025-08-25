@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-st.title("🔬 체질량 · 기초대사량 분석기 (업그레이드 버전)")
+st.title("🔬 체질량 · 기초대사량 분석기 ")
 
 # 사용자 입력
 st.header("📥 정보 입력")
