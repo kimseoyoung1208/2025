@@ -1,6 +1,7 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 
-st.title("🔬 체질량 · 기초대사량 분석기")
+st.title("🔬 체질량 · 기초대사량 분석기 (업그레이드 버전)")
 
 # 사용자 입력
 st.header("📥 정보 입력")
@@ -34,17 +35,50 @@ activity_factors = {
 
 tdee = bmr * activity_factors[activity_level]
 
+# BMI 상태 구분 (대한비만학회 기준)
+if bmi < 18.5:
+    status = "저체중"
+elif bmi < 23:
+    status = "정상"
+elif bmi < 25:
+    status = "과체중"
+else:
+    status = "비만"
+
+# 정상 체중 범위 (BMI 18.5 ~ 22.9 기준)
+min_weight = 18.5 * (height / 100) ** 2
+max_weight = 22.9 * (height / 100) ** 2
+
+# 3대 영양소 권장 비율 (탄수 50%, 단백질 20%, 지방 30%)
+carbs = tdee * 0.5 / 4   # g (탄수화물 1g = 4 kcal)
+protein = tdee * 0.2 / 4 # g
+fat = tdee * 0.3 / 9     # g
+
 # 출력
 st.header("📊 결과")
-st.write(f"👉 **BMI**: {bmi:.2f}")
-if bmi < 18.5:
-    st.write("체중 상태: 저체중")
-elif bmi < 23:
-    st.write("체중 상태: 정상")
-elif bmi < 25:
-    st.write("체중 상태: 과체중")
-else:
-    st.write("체중 상태: 비만")
+st.write(f"👉 **BMI**: {bmi:.2f} ({status})")
+st.write("📌 WHO 기준: 저체중 < 18.5 / 정상 18.5~22.9 / 과체중 23~24.9 / 비만 ≥ 25")
 
 st.write(f"👉 **기초대사량 (BMR)**: {bmr:.0f} kcal/day")
 st.write(f"👉 **하루 권장 섭취 칼로리 (TDEE)**: {tdee:.0f} kcal/day")
+
+if weight < min_weight:
+    st.write(f"✅ 정상 체중에 도달하려면 약 **{min_weight - weight:.1f} kg** 증량이 필요합니다.")
+elif weight > max_weight:
+    st.write(f"✅ 정상 체중에 도달하려면 약 **{weight - max_weight:.1f} kg** 감량이 필요합니다.")
+else:
+    st.write("✅ 현재 체중은 정상 범위에 있습니다!")
+
+st.subheader("🍽️ 하루 권장 영양소 섭취량")
+st.write(f"- 탄수화물: {carbs:.0f} g")
+st.write(f"- 단백질: {protein:.0f} g")
+st.write(f"- 지방: {fat:.0f} g")
+
+# 그래프 출력
+st.subheader("📈 영양소 비율 시각화")
+labels = ["탄수화물", "단백질", "지방"]
+values = [carbs, protein, fat]
+
+fig, ax = plt.subplots()
+ax.bar(labels, values)
+ax.se
