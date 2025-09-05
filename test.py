@@ -12,6 +12,22 @@ weight = st.number_input("몸무게 (kg)", min_value=30, max_value=200, value=No
 age = st.number_input("나이", min_value=10, max_value=100, value=None, placeholder="나이를 입력하세요")  
 gender = st.radio("성별", ("남성", "여성"), index=None)  
 
+if height and weight and age and gender:  
+    # BMI 계산
+    bmi = weight / ((height / 100) ** 2)
+
+    # BMR (Mifflin-St Jeor 공식)
+    if gender == "남성":
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5
+    else:
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161
+
+    st.write(f"BMI: {bmi:.2f}")
+    st.write(f"BMR: {bmr:.0f} kcal/day")
+else:
+    st.write("👉 정보를 모두 입력하면 결과가 표시됩니다!")
+
+
 
 activity_level = st.selectbox(
     "활동 수준",
