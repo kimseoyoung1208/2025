@@ -60,7 +60,8 @@ if height and weight and age and gender and activity_level:
     # 출력
     st.header("📊 결과")
     st.write(f"👉 **체질량지수 (BMI)**: {bmi:.2f} ({status})")
-    st.write("📌 WHO 기준: 저체중 < 18.5 / 정상 18.5~22.9 / 과체중 23~24.9 / 비만 ≥ 25")
+    st.write("📌 WHO 기준: 저체중 < 18.5 / 정상 18.5 ~ 22.9 / 과체중 23 ~ 24.9 / 비만 ≥ 25")
+
 
     st.write(f"👉 **기초대사량 (BMR)**: {bmr:.0f} kcal/day")
     st.write(f"👉 **하루 권장 섭취 칼로리 (TDEE)**: {tdee:.0f} kcal/day")
