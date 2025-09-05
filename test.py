@@ -5,11 +5,13 @@ import altair as alt
 st.title("🔬 체질량 · 기초대사량 분석기 ")
 
 # 사용자 입력
-st.header("📥 정보 입력")
-height = st.number_input("키 (cm)", min_value=100, max_value=250, value=170)
-weight = st.number_input("몸무게 (kg)", min_value=30, max_value=200, value=60)
-age = st.number_input("나이", min_value=10, max_value=100, value=20)
-gender = st.radio("성별", ("남성", "여성"))
+st.header("📥 정보 입력")  
+
+height = st.number_input("키 (cm)", min_value=100, max_value=250, value=None, placeholder="cm 단위로 입력하세요")  
+weight = st.number_input("몸무게 (kg)", min_value=30, max_value=200, value=None, placeholder="kg 단위로 입력하세요")  
+age = st.number_input("나이", min_value=10, max_value=100, value=None, placeholder="나이를 입력하세요")  
+gender = st.radio("성별", ("남성", "여성"), index=None)  
+
 
 activity_level = st.selectbox(
     "활동 수준",
@@ -86,8 +88,8 @@ chart = (
     alt.Chart(df)
     .mark_bar(color="skyblue")
     .encode(
-        x=alt.X("영양소:N", axis=alt.Axis(labelAngle=0)),  # 영양소 글씨 똑바로
-        y=alt.Y("섭취량(g):Q", axis=alt.Axis(titleAngle=0)),  # y축 제목만 세로
+        x=alt.X("영양소:N", axis=alt.Axis(labelAngle=0)),  
+        y=alt.Y("섭취량(g):Q", axis=alt.Axis(titleAngle=0)),  
         tooltip=["영양소", "섭취량(g)"]
     )
 )
